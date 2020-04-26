@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TexturedMaterial
+  m_Name: TexturedMaterial 1
   m_Shader: {fileID: 4800000, guid: dc63d6771540c46e583de5416ef3f5c9, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
