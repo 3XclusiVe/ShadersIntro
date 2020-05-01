@@ -10,9 +10,9 @@
         LOD 200
 
         CGPROGRAM
+        //last argument specify what function for lgting to use
         #pragma surface surf SimpleLambert
 
-        // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
 
         sampler2D _MainTex;
@@ -31,11 +31,12 @@
             o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
         }
         
+        //here our custom ligting function
         half4 LightingSimpleLambert (SurfaceOutput s, half3 lightDir, half atten) 
         {
             half NdotL = dot (s.Normal, lightDir);
             half4 c;
-            c.rgb = s.Albedo *  _LightColor0.rgb * (NdotL * atten * 1);
+            c.rgb = s.Albedo * _LightColor0.rgb * (NdotL * atten * 1);
             c.a = s.Alpha;
             
             return c; 
