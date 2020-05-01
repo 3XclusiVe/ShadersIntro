@@ -1,9 +1,8 @@
-﻿Shader "ShadersIntro/LigtingModel/SimpleLambert"
+﻿Shader "ShadersIntro/LigtingModel/Toon"
 {
     Properties
     {
-        _CelShadingLevels ("Shading", float) = 0.5
-        _MainTex ("Albedo (RGB)", 2D) = "white" {}
+        _RampTex ("Ramp", 2D) = "white" {}
     }
     SubShader
     {
@@ -12,35 +11,34 @@
 
         CGPROGRAM
         //last argument specify what function for lgting to use
-        #pragma surface surf SimpleLambert
+        #pragma surface surf LightingToon
 
         #pragma target 3.0
 
-        sampler2D _MainTex;
+        sampler2D _RampTex;
 
         struct Input
         {
             float2 uv_MainTex;
         };
 
-        float _CelShadingLevels;
 
         UNITY_INSTANCING_BUFFER_START(Props)
         UNITY_INSTANCING_BUFFER_END(Props)
 
         void surf (Input IN, inout SurfaceOutput o)
         {
-            o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
+            o.Albedo = tex2D(_RampTex, IN.uv_MainTex).rgb;
         }
         
         //here our custom ligting function
-        half4 LightingSimpleLambert (SurfaceOutput s, half3 lightDir, half atten) 
+        half4 LightingLightingToon (SurfaceOutput s, half3 lightDir, half atten) 
         {
             half NdotL = dot (s.Normal, lightDir);
-            half cel = floor(NdotL * _CelShadingLevels) / (_CelShadingLevels - 0.5); // Snap
+            NdotL = tex2D(_RampTex, fixed2(NdotL, 0.5));
             
-            half4 c;
-            c.rgb = s.Albedo * _LightColor0.rgb * (atten * cel);
+            fixed4 c;
+            c.rgb = s.Albedo * _LightColor0.rgb * (NdotL * atten * 1);
             c.a = s.Alpha;
             
             return c; 
