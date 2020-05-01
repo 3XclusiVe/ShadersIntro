@@ -22,7 +22,7 @@
         struct Input
         {
             float2 uv_MainTex;
-            float3 worldPos; //posistion in worlds coords
+            float3 worldPos; //posistion of a pixel we drawwing in worlds coords
         };
         
         sampler2D _MainTex;
