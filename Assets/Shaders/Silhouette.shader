@@ -18,7 +18,7 @@
         LOD 200
 
         CGPROGRAM
-        #pragma surface surf Lambert alpha:fade NoLighting
+        #pragma surface surf NoLighting alpha:fade
 
         #pragma target 3.0
 
@@ -48,6 +48,17 @@
             float alpha = (border * (1 - _DotProduct) + _DotProduct);
             o.Alpha = c.a * alpha;
         }
+        
+        half4 LightingNoLighting (SurfaceOutput s, half3 lightDir, half atten) 
+        {
+            half4 c;
+            
+            c.rgb = s.Albedo;
+            c.a = s.Alpha;
+            
+            return c;
+        } 
+
         ENDCG
     }
     FallBack "Diffuse"
