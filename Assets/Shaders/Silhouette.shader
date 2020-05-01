@@ -49,6 +49,7 @@
             o.Alpha = c.a * alpha;
         }
         
+        //Custom lighting that removes all shadows
         half4 LightingNoLighting (SurfaceOutput s, half3 lightDir, half atten) 
         {
             half4 c;
