@@ -35,7 +35,7 @@
         {
             half NdotL = dot (s.Normal, lightDir);
             half4 c;
-            c.rgb = s.Albedo; //* _LightColor0.rgb * (NdotL * atten * 1);
+            c.rgb = s.Albedo *  _LightColor0.rgb * (NdotL * atten * 1);
             c.a = s.Alpha;
             
             return c; 
