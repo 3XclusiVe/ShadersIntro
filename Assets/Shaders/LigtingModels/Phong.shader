@@ -15,7 +15,7 @@
 
 
         CGPROGRAM
-        #pragma surface surf Phong fullforwardshadows
+        #pragma surface surf CustomBlinnPhong fullforwardshadows
 
         #pragma target 3.0
 
@@ -55,6 +55,22 @@
             c.rgb = (s.Albedo * _LightColor0.rgb * max(0,NdotL) * atten) + (_LightColor0.rgb * finalSpec); 
             c.a = s.Alpha;
             
+            return c;
+        }
+        
+        //simmplier Phong solution, more performant
+        fixed4 LightingCustomBlinnPhong (SurfaceOutput s, fixed3 lightDir, half3 viewDir, fixed atten) 
+        {
+            float NdotL = max(0,dot(s.Normal, lightDir));
+            
+            // Specular
+            float3 halfVector = normalize(lightDir + viewDir);
+            float NdotH = max(0, dot(s.Normal, halfVector));
+            float spec = pow(NdotH, _SpecPower) * _SpecularColor;
+            
+            float4 c;
+            c.rgb = (s.Albedo * _LightColor0.rgb * NdotL) + (_LightColor0.rgb * _SpecularColor.rgb * spec) * atten;
+            c.a = s.Alpha;
             return c;
         }
         ENDCG
